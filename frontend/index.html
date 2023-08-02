@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FormData Tutorial</title>
+</head>
+<body>
+  <form>
+    <div>
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name">
+    </div>
+    <div>
+      <label for="file">Upload File</label>
+      <input type="file" name="file" id="file">
+    </div>
+    <div>
+      <button type="submit" id="submitBtn">Submit</button>
+    </div>
+  </form>
+
+  <script>
+    document.getElementById('submitBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      let name = document.getElementById('name').value;
+      let file = document.getElementById('file').files[0];
+      let formData = new FormData();
+      formData.append('name', name);
+      formData.append('file', file);
+      console.log(formData.get('file'));
+
+      fetch('http://localhost:3000/upload-single', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => console.log('File uploaded successfully:', data))
+      .catch(err => console.error('Error uploading file:', error))
+    });
+  </script>
+</body>
+</html>
